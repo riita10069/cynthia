@@ -1,6 +1,7 @@
 package cynthia
 
 import (
+	"errors"
 	"fmt"
 	"go/ast"
 	"golang.org/x/tools/go/analysis"
@@ -22,7 +23,9 @@ var Analyzer = &analysis.Analyzer{
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
-	fmt.Println("run")
+	if !IsTest(pass) {
+				return nil, errors.New("no test")
+	}
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 	functionFilter := []ast.Node{(*ast.FuncDecl)(nil)}
 
@@ -34,9 +37,15 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		switch testNode := testNode.(type) {
 		case *ast.FuncDecl:
 			testFuncObj := pass.TypesInfo.ObjectOf(testNode.Name)
-			if testFuncObj == nil {break}
-			if !testFuncObj.Exported() {break}
-			if !strings.HasPrefix(testFuncObj.Name(), "Test") {break}
+			if testFuncObj == nil {
+				break
+			}
+			if !testFuncObj.Exported() {
+				break
+			}
+			if !strings.HasPrefix(testFuncObj.Name(), "Test") {
+				break
+			}
 
 			signatureMap[testFuncObj.Name()] = true
 		}
@@ -47,11 +56,21 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		case *ast.FuncDecl:
 
 			signatureObj := pass.TypesInfo.ObjectOf(funcNode.Name)
-			if signatureObj == nil {break} // 後ろでぬるぽ踏まないように
-			if !signatureObj.Exported() {break} // プライベートな関数はテストなくてもいいかな
-			if strings.HasPrefix(signatureObj.Name(), "Test") {break} // Testのテストはいらない
-			if strings.HasPrefix(signatureObj.Name(), "New") {break} // コンストラクタのテストはいらない
-			if !(signatureObj.Name() != "main" && signatureObj.Name() != "init") {break}
+			if signatureObj == nil {
+				break
+			}
+			if !signatureObj.Exported() {
+				break
+			}
+			if strings.HasPrefix(signatureObj.Name(), "Test") {
+				break
+			}
+			if strings.HasPrefix(signatureObj.Name(), "New") {
+				break
+			}
+			if !(signatureObj.Name() != "main" && signatureObj.Name() != "init") {
+				break
+			}
 			matchTestName := fmt.Sprintf("Test%s", signatureObj.Name())
 
 			fmt.Println("match test name", matchTestName)
@@ -64,4 +83,19 @@ func run(pass *analysis.Pass) (interface{}, error) {
 	})
 
 	return nil, nil
+}
+
+func IsTest(pass *analysis.Pass) bool {
+	if strings.HasSuffix(pass.Pkg.Path(), ".test") {
+		return false
+	}
+
+	for _, f := range pass.Files {
+		fn := pass.Fset.File(f.Pos()).Name()
+		if strings.HasSuffix(fn, "_test.go") {
+			return true
+		}
+	}
+
+	return false
 }

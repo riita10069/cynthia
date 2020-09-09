@@ -14,3 +14,16 @@ The most important thing in test-driven development is to make it a habit.
 By writing from the test first, you'll have a clean, easy-to-use function.
 We hope that you'll get into the habit of doing so.
 That's why I named it after this tool.
+
+## Getting Stated
+### How to Install
+
+```
+go get github.com/riita10069/check_interfacego get github.com/riita10069/check_interface
+```
+
+### Usage Example
+```
+go vet -vettool=`which cynthia` [package path]
+go vet -vettool=`which cynthia` [package path1] [package path2] [package path3]
+```

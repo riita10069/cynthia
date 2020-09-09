@@ -1,4 +1,6 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/gostaticanalysis/testutil v0.0.0-20190308165151-352061e1ba8c h1:tm1bj/ZLA5YQIc33pvHwhZ8gt1XJb34Md5PXZLZAzis=
+github.com/gostaticanalysis/testutil v0.0.0-20190308165151-352061e1ba8c/go.mod h1:6dnfVtdzHaKguYhBO/9DQrWcGfyZocsw7IS/bLgaC/M=
 github.com/oribe1115/gentest v0.0.0-20200904120613-3f8f74e2a77a h1:t8uoPtrwUr/u0u3nN6ziE2U0aQPWXYJVaIh8XYJDjl4=
 github.com/oribe1115/gentest v0.0.0-20200904120613-3f8f74e2a77a/go.mod h1:WD2vVQpI4Rl00w9f8A/pJfZgNLZDsO/ieHm1pL3WKSw=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
