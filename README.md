@@ -19,7 +19,7 @@ That's why I named it after this tool.
 ### How to Install
 
 ```
-go get github.com/riita10069/check_interfacego get github.com/riita10069/check_interface
+go get github.com/riita10069/cynthia/cmd/cynthia
 ```
 
 ### Usage Example
