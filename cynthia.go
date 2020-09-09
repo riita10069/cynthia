@@ -74,7 +74,6 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			matchTestName := fmt.Sprintf("Test%s", signatureObj.Name())
 
 			if _, ok := signatureMap[matchTestName]; !ok {
-				fmt.Print(signatureObj.Name(), ": ")
 				pass.Reportf(signatureObj.Pos(), "not implemented")
 			}
 		}
