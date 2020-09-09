@@ -22,6 +22,7 @@ var Analyzer = &analysis.Analyzer{
 }
 
 func run(pass *analysis.Pass) (interface{}, error) {
+	fmt.Println("run")
 	inspect := pass.ResultOf[inspect.Analyzer].(*inspector.Inspector)
 	functionFilter := []ast.Node{(*ast.FuncDecl)(nil)}
 
@@ -41,23 +42,26 @@ func run(pass *analysis.Pass) (interface{}, error) {
 		}
 	})
 
-
 	inspect.Preorder(functionFilter, func(funcNode ast.Node) {
 		switch funcNode := funcNode.(type) {
 		case *ast.FuncDecl:
+
 			signatureObj := pass.TypesInfo.ObjectOf(funcNode.Name)
 			if signatureObj == nil {break} // 後ろでぬるぽ踏まないように
 			if !signatureObj.Exported() {break} // プライベートな関数はテストなくてもいいかな
 			if strings.HasPrefix(signatureObj.Name(), "Test") {break} // Testのテストはいらない
+			if strings.HasPrefix(signatureObj.Name(), "New") {break} // コンストラクタのテストはいらない
 			if !(signatureObj.Name() != "main" && signatureObj.Name() != "init") {break}
 			matchTestName := fmt.Sprintf("Test%s", signatureObj.Name())
 
+			fmt.Println("match test name", matchTestName)
+			fmt.Printf("---%v\n", signatureMap)
 			if _, ok := signatureMap[matchTestName]; !ok {
-				pass.Reportf(signatureObj.Pos(), "There is no test function implemented")
+				fmt.Println("falseの時", signatureObj.Pos())
+				pass.Reportf(signatureObj.Pos(), "not implemented")
 			}
 		}
 	})
 
 	return nil, nil
 }
-

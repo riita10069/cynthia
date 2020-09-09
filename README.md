@@ -1,4 +1,6 @@
 ## Cynthia
+![Test](https://github.com/riita10069/cynthia/workflows/Build/badge.svg)
+![Release](https://github.com/riita10069/cynthia/workflows/Release/badge.svg)
 
 This is a tool for TDD(Test Driven Development).
 
