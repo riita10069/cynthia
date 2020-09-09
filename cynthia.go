@@ -74,7 +74,7 @@ func run(pass *analysis.Pass) (interface{}, error) {
 			matchTestName := fmt.Sprintf("Test%s", signatureObj.Name())
 
 			if _, ok := signatureMap[matchTestName]; !ok {
-				pass.Reportf(signatureObj.Pos(), "not implemented")
+				pass.Reportf(signatureObj.Pos(), "There is no test implemented for this function.")
 			}
 		}
 	})
