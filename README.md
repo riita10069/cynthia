@@ -1,7 +1,4 @@
 ## Cynthia
-![Test](https://github.com/riita10069/cynthia/workflows/Build/badge.svg)
-![Release](https://github.com/riita10069/cynthia/workflows/Release/badge.svg)
-
 This is a tool for TDD(Test Driven Development).
 
 Cynthia ensures test-driven development. When you use it in CI, it ensures that untested methods are not introduced.
